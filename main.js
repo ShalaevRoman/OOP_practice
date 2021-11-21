@@ -9,6 +9,7 @@ class SuperArray {
         this.n = n;
         this.m = m;
         this.data = data;
+        this.arrData = this.createArr();
     }
 
     createArr() {
@@ -34,8 +35,29 @@ class SuperArray {
         const max = Math.floor(this.data.max);
         return Math.floor(Math.random() * (max - min + 1) + min)
     }
+
+    render(separator) {
+        let result = [];
+        this.arrData.forEach(element => {
+            result.push(`<tr>${this.renderTd(element, separator)}</tr>`)
+        });
+        return result.join("");
+    }
+
+    renderTd(arr, sep) {
+        let result = [];
+        arr.forEach(item => {
+            result.push(`<td>${item}</td>`);
+        });
+        return result.join(sep);
+    }
 };
 
 const COPY_CLASS = new SuperArray(4, 4, { min: 10, max: 100 });
-COPY_CLASS.arrData = COPY_CLASS.createArr();
-console.log(COPY_CLASS)
+console.log(COPY_CLASS.render("|"))
+document.querySelector(".tbody").innerHTML = `${COPY_CLASS.render("|")}`;
+
+
+// Создать метод render(separator), в прототипе.
+//  Который выведет двумерный массив в документ.
+//   С разделителем separator, под массивом.
