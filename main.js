@@ -37,19 +37,15 @@ class SuperArray {
     }
 
     render(separator) {
-        let result = [];
-        this.arrData.forEach(element => {
-            result.push(`<tr>${this.renderTd(element, separator)}</tr>`)
-        });
-        return result.join("");
+        return this.arrData.map(element => {
+            return `<tr>${this.renderTd(element, separator)}</tr>`;
+        }).join("");
     }
 
     renderTd(arr, sep) {
-        let result = [];
-        arr.forEach(item => {
-            result.push(`<td>${item}</td>`);
-        });
-        return result.join(sep);
+        return arr.map(item => {
+            return `<td>${item}</td>`;
+        }).join(`${sep}`);
     }
 };
 
