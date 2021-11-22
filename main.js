@@ -13,17 +13,17 @@ class SuperArray {
     }
 
     createArr() {
-        const NEW_ARR = [];
-        NEW_ARR.length = this.n;
-        for (let i = 0; i < NEW_ARR.length; i++) {
-            NEW_ARR[i] = [];
-            NEW_ARR[i].length = this.m;
-            NEW_ARR[i] = this.fillingArray(NEW_ARR[i]);
+        const DATABASE = [];
+        DATABASE.length = this.n;
+        for (let i = 0; i < DATABASE.length; i++) {
+            DATABASE[i] = [];
+            DATABASE[i].length = this.m;
+            DATABASE[i] = this.fillArray(DATABASE[i]);
         }
-        return NEW_ARR;
+        return DATABASE;
     }
 
-    fillingArray(arr) {
+    fillArray(arr) {
         for (let i = 0; i < arr.length; i++) {
             arr[i] = this.getRandomNum();
         }
@@ -37,27 +37,30 @@ class SuperArray {
     }
 
     render(separator) {
-        let result = [];
-        this.arrData.forEach(element => {
-            result.push(`<tr>${this.renderTd(element, separator)}</tr>`)
-        });
-        return result.join("");
+        return this.arrData.map(element => {
+            return `<ul>${this.renderTd(element, separator)}</ul>`;
+        }).join("");
     }
 
-    renderTd(arr, sep) {
-        let result = [];
-        arr.forEach(item => {
-            result.push(`<td>${item}</td>`);
-        });
-        return result.join(sep);
+    renderTd(arr, separator) {
+        return arr.map(item => {
+            return `<li>${item}</li>`;
+        }).join(`${separator}`);
     }
 };
 
-const COPY_CLASS = new SuperArray(4, 4, { min: 10, max: 100 });
-console.log(COPY_CLASS.render("|"))
-document.querySelector(".tbody").write(`${COPY_CLASS.render("|")}`);
+const COPYCLASS = new SuperArray(4, 4, { min: 10, max: 100 });
+document.querySelector(".wrapper").innerHTML = `${COPYCLASS.render("|")}`;
+
 
 
 // Создать метод render(separator), в прототипе.
 //  Который выведет двумерный массив в документ.
 //   С разделителем separator, под массивом.
+
+// Создать метод clear(direction, k),
+//  где direction может быть "row" или "column",
+//   а k - номер строки или столбца, который нужно очистить. (поставить 0)
+console.log(COPYCLASS.render("|"))
+
+// function clear(direction, k)
