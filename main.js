@@ -38,22 +38,28 @@ class SuperArray {
 
     render(separator) {
         return this.arrData.map(element => {
-            return `<tr>${this.renderTd(element, separator)}</tr>`;
+            return `<ul>${this.renderTd(element, separator)}</ul>`;
         }).join("");
     }
 
     renderTd(arr, sep) {
         return arr.map(item => {
-            return `<td>${item}</td>`;
+            return `<li>${item}</li>`;
         }).join(`${sep}`);
     }
 };
 
 const COPY_CLASS = new SuperArray(4, 4, { min: 10, max: 100 });
-console.log(COPY_CLASS.render("|"))
-document.querySelector(".tbody").innerHTML = `${COPY_CLASS.render("|")}`;
+document.querySelector(".wrapper").innerHTML = `${COPY_CLASS.render("|")}`;
 
 
 // Создать метод render(separator), в прототипе.
 //  Который выведет двумерный массив в документ.
 //   С разделителем separator, под массивом.
+
+// Создать метод clear(direction, k),
+//  где direction может быть "row" или "column",
+//   а k - номер строки или столбца, который нужно очистить. (поставить 0)
+console.log(COPY_CLASS.render("|"))
+
+function clear(direction, k)
