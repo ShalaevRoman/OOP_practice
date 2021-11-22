@@ -1,9 +1,3 @@
-// // Создать класс new SuperArray(n, m, { min: 10, max: 55 }),
-//  который создаст массив размерностью n на m
-//   и заполнит случайными числами в диапазоне 
-//   options.min - options.max. 
-//   Массив сохраняется в екземпляр класса SuperArray.
-
 class SuperArray {
     constructor(n, m, data) {
         this.n = n;
@@ -60,21 +54,24 @@ class SuperArray {
         }
         this.render();
     }
+
+    setMarker(obj) {
+        this.arrData[obj.x][obj.y] = "&"
+        this.render();
+    }
 };
 
 const COPYCLASS = new SuperArray(4, 4, { min: 10, max: 100 });
 COPYCLASS.clear("row", 3)
 COPYCLASS.clear("column", 0)
+COPYCLASS.setMarker({ x: 1, y: 1 });
 document.querySelector(".wrapper").innerHTML = `${COPYCLASS.render("|")}`;
 
-console.log(COPYCLASS.arrData)
+// Создать Метод setMarker({ x: 6, y: 9 }),
+//  который устанавливает маркер "&" в в переданную точку.
 
 
 
-// Создать метод render(separator), в прототипе.
-//  Который выведет двумерный массив в документ.
-//   С разделителем separator, под массивом.
 
-// Создать метод clear(direction, k),
-//  где direction может быть "row" или "column",
-//   а k - номер строки или столбца, который нужно очистить. (поставить 0)
+
+console.log(COPYCLASS.arrData);
