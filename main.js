@@ -47,10 +47,27 @@ class SuperArray {
             return `<li>${item}</li>`;
         }).join(`${separator}`);
     }
+
+    clear(direction, k) {
+        if (direction === "row") {
+            this.arrData[k] = this.arrData[k].map(elem => {
+                return elem = 0;
+            })
+        } else if (direction === "column") {
+            return this.arrData.map(elem => {
+                return elem[k] = 0;
+            })
+        }
+        this.render();
+    }
 };
 
 const COPYCLASS = new SuperArray(4, 4, { min: 10, max: 100 });
+COPYCLASS.clear("row", 3)
+COPYCLASS.clear("column", 0)
 document.querySelector(".wrapper").innerHTML = `${COPYCLASS.render("|")}`;
+
+console.log(COPYCLASS.arrData)
 
 
 
@@ -61,6 +78,3 @@ document.querySelector(".wrapper").innerHTML = `${COPYCLASS.render("|")}`;
 // Создать метод clear(direction, k),
 //  где direction может быть "row" или "column",
 //   а k - номер строки или столбца, который нужно очистить. (поставить 0)
-console.log(COPYCLASS.render("|"))
-
-// function clear(direction, k)
