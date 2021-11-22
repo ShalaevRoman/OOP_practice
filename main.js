@@ -55,7 +55,7 @@ class SuperArray {
 
 const COPY_CLASS = new SuperArray(4, 4, { min: 10, max: 100 });
 console.log(COPY_CLASS.render("|"))
-document.querySelector(".tbody").innerHTML = `${COPY_CLASS.render("|")}`;
+document.querySelector(".tbody").write(`${COPY_CLASS.render("|")}`);
 
 
 // Создать метод render(separator), в прототипе.
