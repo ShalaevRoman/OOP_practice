@@ -56,22 +56,46 @@ class SuperArray {
     }
 
     setMarker(obj) {
-        this.arrData[obj.x][obj.y] = "&"
+        this.arrData[obj.x][obj.y] = "&";
         this.render();
     }
+
+    goTo(obj) {
+        this.arrData = this.arrData.map(elem => {
+            return elem.map(item => {
+                if (item === "&") {
+                    return item = this.getRandomNum();
+                } else return item
+            })
+        })
+        this.setMarker(obj);
+    }
+
 };
 
 const COPYCLASS = new SuperArray(4, 4, { min: 10, max: 100 });
 COPYCLASS.clear("row", 3)
 COPYCLASS.clear("column", 0)
 COPYCLASS.setMarker({ x: 1, y: 1 });
-document.querySelector(".wrapper").innerHTML = `${COPYCLASS.render("|")}`;
+COPYCLASS.goTo({ x: 3, y: 3 });
 
-// Создать Метод setMarker({ x: 6, y: 9 }),
-//  который устанавливает маркер "&" в в переданную точку.
+// Создать метод shift(direction), где direction может иметь значение
+//  "left", "right", "top", "bottom", и маркер сдвинется в указанную сторону на 1 шаг.
 
-
-
-
+function left() {
+    return COPYCLASS.arrData = COPYCLASS.arrData.map(elem => {
+        return elem.map(item => {
+            if (item === "&") {
+                item = COPYCLASS.getRandomNum()
+                elem[item - 1] = "&";
+                return item;
+            } else if (elem[item] < 0) {
+                return console.log(new Error("The end!"));
+            } else return item;
+        })
+    })
+}
 
 console.log(COPYCLASS.arrData);
+console.log(left())
+document.querySelector(".wrapper").innerHTML = `${COPYCLASS.render("|")}`;
