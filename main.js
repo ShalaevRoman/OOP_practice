@@ -33,6 +33,7 @@ class SuperArray {
                 fragment.append(separator);
             }
         });
+
         const app = document.querySelector("#app");
         if (!app.children.length) {
             app.appendChild(fragment);
@@ -57,12 +58,14 @@ class SuperArray {
         this.render();
     }
 
-    setMarker(obj) {
-        this.arrData[obj.x][obj.y] = "&";
+    setMarker(сoordinates) {
+        сoordinates = this.checkingСoordinates(сoordinates);
+        this.arrData[сoordinates.x][сoordinates.y] = "&";
         this.render();
     }
 
-    goTo(obj) {
+    goTo(сoordinates) {
+        сoordinates = this.checkingСoordinates(сoordinates);
         this.arrData = this.arrData.map(elem => {
             return elem.map(item => {
                 if (item === "&") {
@@ -70,44 +73,61 @@ class SuperArray {
                 } else return item
             })
         })
-        this.setMarker(obj);
+        this.setMarker(сoordinates);
+    }
+
+    checkingСoordinates(сoordinates) {
+        if (сoordinates.x < 0) {
+            сoordinates.x = 0;
+        } else if (сoordinates.x > this.arrData[0].length - 1) {
+            сoordinates.x = this.arrData[0].length - 1;
+        } else if (сoordinates.y < 0) {
+            сoordinates.y = 0;
+        } else if (сoordinates.y > this.arrData[0].length - 1) {
+            сoordinates.y = this.arrData[0].length - 1;
+        }
+        return сoordinates;
+    }
+
+    getMarker() {
+        const marker = {};
+        instance.arrData.forEach(row => {
+            if (row.indexOf("&") > 0) {
+                marker.y = row.indexOf("&");
+                marker.x = instance.arrData.indexOf(row)
+            }
+        });
+        return marker;
+    }
+
+    shift(direction) {
+        const сoordinates = this.getMarker()
+        switch (direction) {
+            case "left":
+                сoordinates.y = сoordinates.y - 1;
+                break;
+            case "right":
+                сoordinates.y = сoordinates.y + 1;
+                break;
+            case "top":
+                сoordinates.x = сoordinates.x - 1;
+                break;
+            case "bottom":
+                сoordinates.x = сoordinates.x + 1;
+                break;
+        }
+        return this.goTo(сoordinates);
     }
 
 };
 
 const instance = new SuperArray(4, 4, { min: 10, max: 100 });
-instance.render();
+instance.render("|");
 instance.clear("row", 3);
 instance.clear("column", 0);
 instance.setMarker({ x: 1, y: 1 });
-instance.goTo({ x: 2, y: 3 });
-
-// Создать метод shift(direction), где direction может иметь значение
-//  "left", "right", "top", "bottom", и маркер сдвинется в указанную сторону на 1 шаг.
-
-function shift(direction) {
-    console.log(`${direction}`)
-    switch (direction) {
-        case "left":
-            directionLeft(instance.arrData);
-            break;
-
-    }
-
-}
-
-function directionLeft(data) {
-    let result = {}
-    data.findIndex(elem => {
-        if (elem.indexOf("&") > 0) {
-            console.log(elem, elem[elem.indexOf("&")], elem.indexOf("&"))
-        }
-
-        // if()
-    })
-    return result;
-}
-
-shift("left")
-
-// console.log(COPYCLASS.arrData);
+instance.goTo({ x: 2, y: 2 });
+instance.shift("bottom");
+instance.shift("top");
+instance.shift("left");
+instance.shift("right");
