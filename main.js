@@ -48,21 +48,22 @@ class SuperArray {
 
     clear(direction, k) {
         if (direction === "row") {
-            return this.arrData[k] = this.arrData[k].map(elem => {
-                return elem = 0;
-            })
-        } else if (direction === "column") {
-            return this.arrData.map(elem => {
-                return elem[k] = 0;
-            })
-        }
+            return this.arrData[k] = this.arrData[k].map(number => {
+                return number = 0;
+            });
+        };
+        if (direction === "column") {
+            return this.arrData.map(columns => {
+                console.log(columns[k])
+                return columns[k] = 0;
+            });
+        };
         this.render(this.separator);
     }
 
     setMarker(сoordinates) {
         сoordinates = this.checkСoordinates(сoordinates);
         this.arrData[сoordinates.x][сoordinates.y] = "&";
-        console.log(сoordinates.y);
         this.render(this.separator);
     }
 
@@ -99,8 +100,8 @@ class SuperArray {
 
     getMarker() {
         const marker = {};
-        instance.arrData.forEach(row => {
-            if (row.indexOf("&") > 0) {
+        this.arrData.forEach(row => {
+            if (row.indexOf("&") >= 0) {
                 marker.y = row.indexOf("&");
                 marker.x = this.arrData.indexOf(row)
             }
@@ -123,6 +124,8 @@ class SuperArray {
             case "bottom":
                 сoordinates.x = сoordinates.x + 1;
                 break;
+            default:
+                break;
         }
         return this.goTo(сoordinates);
     }
@@ -130,26 +133,25 @@ class SuperArray {
 };
 
 const instance = new SuperArray(4, 4, { min: 10, max: 100 });
-instance.render("|");
-instance.clear("row", 3);
-instance.clear("column", 0);
+instance.clear("row", 1);
+instance.clear("column", 1);
 instance.setMarker({ x: 1, y: 1 });
 instance.goTo({ x: 2, y: 2 });
 instance.shift("bottom");
 instance.shift("top");
 instance.shift("left");
 instance.shift("right");
+instance.render("|");
 
 
 const action = {
-    37: () => { instance.shift("left"); },
-    38: () => { instance.shift("top"); },
-    39: () => { instance.shift("right"); },
-    40: () => { instance.shift("bottom"); },
+    37: () => instance.shift("left"),
+    38: () => instance.shift("top"),
+    39: () => instance.shift("right"),
+    40: () => instance.shift("bottom"),
 }
 
 const app = document.querySelector("#app");
-document.onkeydown = e => {
-    action[e.keyCode] && action[e.keyCode]();
-    console.dir(e.keyCode)
+document.onkeydown = ({ keyCode }) => {
+    action[keyCode]();
 }
