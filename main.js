@@ -136,11 +136,6 @@ const instance = new SuperArray(4, 4, { min: 10, max: 100 });
 instance.clear("row", 1);
 instance.clear("column", 1);
 instance.setMarker({ x: 1, y: 1 });
-instance.goTo({ x: 2, y: 2 });
-instance.shift("bottom");
-instance.shift("top");
-instance.shift("left");
-instance.shift("right");
 instance.render("|");
 
 
