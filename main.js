@@ -55,13 +55,13 @@ class SuperArray {
                 return elem[k] = 0;
             })
         }
-        this.render();
+        this.render(this.separator);
     }
 
     setMarker(сoordinates) {
         сoordinates = this.checkingСoordinates(сoordinates);
         this.arrData[сoordinates.x][сoordinates.y] = "&";
-        this.render();
+        this.render(this.separator);
     }
 
     goTo(сoordinates) {
