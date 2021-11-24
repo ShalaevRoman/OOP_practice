@@ -19,6 +19,7 @@ class SuperArray {
     }
 
     render(separator) {
+        this.separator = separator;
         const fragment = document.createDocumentFragment();
 
         this.arrData.forEach((arrayRow, index) => {
@@ -47,7 +48,7 @@ class SuperArray {
 
     clear(direction, k) {
         if (direction === "row") {
-            this.arrData[k] = this.arrData[k].map(elem => {
+            return this.arrData[k] = this.arrData[k].map(elem => {
                 return elem = 0;
             })
         } else if (direction === "column") {
@@ -59,13 +60,14 @@ class SuperArray {
     }
 
     setMarker(сoordinates) {
-        сoordinates = this.checkingСoordinates(сoordinates);
+        сoordinates = this.checkСoordinates(сoordinates);
         this.arrData[сoordinates.x][сoordinates.y] = "&";
+        console.log(сoordinates.y);
         this.render(this.separator);
     }
 
     goTo(сoordinates) {
-        сoordinates = this.checkingСoordinates(сoordinates);
+        сoordinates = this.checkСoordinates(сoordinates);
         this.arrData = this.arrData.map(elem => {
             return elem.map(item => {
                 if (item === "&") {
@@ -76,17 +78,23 @@ class SuperArray {
         this.setMarker(сoordinates);
     }
 
-    checkingСoordinates(сoordinates) {
-        if (сoordinates.x < 0) {
-            сoordinates.x = 0;
-        } else if (сoordinates.x > this.arrData[0].length - 1) {
-            сoordinates.x = this.arrData[0].length - 1;
-        } else if (сoordinates.y < 0) {
-            сoordinates.y = 0;
-        } else if (сoordinates.y > this.arrData[0].length - 1) {
-            сoordinates.y = this.arrData[0].length - 1;
+    checkСoordinates(сoordinates) {
+        const result = {...сoordinates };
+
+        if (result.x < 0) {
+            result.x = 0;
+        };
+        if (result.x > this.arrData[0].length - 1) {
+            result.x = this.arrData[0].length - 1;
+        };
+        if (result.y < 0) {
+            result.y = 0;
         }
-        return сoordinates;
+        if (result.y > this.arrData[0].length - 1) {
+            result.y = this.arrData[0].length - 1;
+        };
+
+        return result;
     }
 
     getMarker() {
@@ -94,7 +102,7 @@ class SuperArray {
         instance.arrData.forEach(row => {
             if (row.indexOf("&") > 0) {
                 marker.y = row.indexOf("&");
-                marker.x = instance.arrData.indexOf(row)
+                marker.x = this.arrData.indexOf(row)
             }
         });
         return marker;
@@ -131,3 +139,17 @@ instance.shift("bottom");
 instance.shift("top");
 instance.shift("left");
 instance.shift("right");
+
+
+const action = {
+    37: () => { instance.shift("left"); },
+    38: () => { instance.shift("top"); },
+    39: () => { instance.shift("right"); },
+    40: () => { instance.shift("bottom"); },
+}
+
+const app = document.querySelector("#app");
+document.onkeydown = e => {
+    action[e.keyCode] && action[e.keyCode]();
+    console.dir(e.keyCode)
+}
